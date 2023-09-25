@@ -1,6 +1,9 @@
 package com.alura.jpa.testes;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+
 
 import com.alura.jpa.modelo.Categoria;
 import com.alura.jpa.modelo.Produto;
@@ -11,8 +14,23 @@ import com.alura.jpa.dao.ProdutoDao;
 
 public class CadastroDeProdutos {
     public static void main(String[] args) {
+        //cadastrarProduto();
+
+        EntityManager em = JPAutil.getEntityMenager(); //substitui o codigo acima
+        ProdutoDao produtoDao = new ProdutoDao();        
+        produtoDao.ProdutoDao(em);
+
+        Produto p = produtoDao.buscaProdutoID(30);
+        
+        List<Produto> todos = produtoDao.buscarTodos();
+        todos.forEach(p2 -> System.out.println(p2.getNome()));
+        
 
 
+
+    }
+
+    private static void cadastrarProduto() {
         Categoria eletrodomestico = new Categoria("ELETRONOMESTICO");
 
         Produto celular = new Produto("ELETROLUX MAQUINA DE LAVAR", "MAQUINA DE LAVAR", 2500.00, eletrodomestico);
@@ -24,9 +42,9 @@ public class CadastroDeProdutos {
         EntityManager em = JPAutil.getEntityMenager(); //substitui o codigo acima
 
         CategoriaDao cdao = new CategoriaDao();
-        ProdutoDao dao = new ProdutoDao();
+        ProdutoDao produtoDao = new ProdutoDao();
         cdao.CategoriaDao(em);
-        dao.ProdutoDao(em);
+        produtoDao.ProdutoDao(em);
         //abre a conexao
         em.getTransaction().begin();
 
@@ -34,12 +52,11 @@ public class CadastroDeProdutos {
 
         //executa a ação desejada
         cdao.cadastrar(eletrodomestico);
-        dao.cadastrar(celular);;
+        produtoDao.cadastrar(celular);;
 
         //envia e salva as inf
         em.getTransaction().commit();
         //fecha conexão
         em.close();
-
     }
 }

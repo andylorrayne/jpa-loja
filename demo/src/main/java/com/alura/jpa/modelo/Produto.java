@@ -27,6 +27,10 @@ public class Produto {
     @ManyToOne
     private Categoria categoria;
 
+    public Produto(){
+        
+    }
+
     public Produto(String nome, String descicao, double preco, Categoria categoria){
         this.categoria = categoria;
         this.descricao = descicao;
